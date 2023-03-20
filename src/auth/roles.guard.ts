@@ -19,6 +19,7 @@ export class RolesGuard implements CanActivate {
 
 	canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
 		try {
+			console.log(context)
 			const requiredRoles = this.reflector.getAllAndOverride<string[]>(ROLES_KEY, [
 				context.getHandler(),
 				context.getClass(),
@@ -30,7 +31,7 @@ export class RolesGuard implements CanActivate {
 			const authHeader = req.headers.authorization;
 			const bearer = authHeader.split(' ')[0]
 			const token = authHeader.split(' ')[1]
-
+			console.log(req, authHeader, bearer, token)
 			if (bearer !== 'Bearer' || !token) {
 				throw new UnauthorizedException({ message: 'Пользователь не авторизован' })
 			}
